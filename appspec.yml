@@ -4,8 +4,3 @@ os: linux
 files:
  - source: /
    destination: /home/ec2-user/hellonode
-   
-hooks:
-  ApplicationStart:
-    - location: deployment/start.sh
-      runas: ec2-user
