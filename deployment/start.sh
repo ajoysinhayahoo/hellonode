@@ -1,2 +1,2 @@
 #!/bin/sh
-forever start server.js --flags --here;
+nohup node /home/ec2-user/hellonode/server.js > output.log &
