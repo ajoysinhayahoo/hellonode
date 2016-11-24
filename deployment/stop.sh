@@ -1,3 +1,3 @@
 #!/bin/sh
 
-killall node
+forever stopall
