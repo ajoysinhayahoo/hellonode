@@ -3,10 +3,3 @@ os: linux
 files:
  - source: /
    destination: /home/ec2-user/hellonode
-hooks:
-  AfterInstall:
-    - location: deployment/stop.sh
-      runas: ec2-user
-  ApplicationStart:
-    - location: deployment/start.sh
-      runas: ec2-user
