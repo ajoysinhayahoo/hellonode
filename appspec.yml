@@ -7,6 +7,6 @@ files:
    
 ApplicationStart:
     - location: deployment/start.sh
-      runas: ec2-user
+      runas: root
       
    
