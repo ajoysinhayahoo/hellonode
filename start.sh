@@ -1,3 +1,3 @@
 #!/bin/sh
 
-nohup node server.js > output.log &
+nohup node server.js > /home/ec2-user/output.log &
