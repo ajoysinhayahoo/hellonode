@@ -5,9 +5,5 @@ os: linux
 files:
  - source: /
    destination: /home/ec2-user/hellonode
-   
-ApplicationStart:
-    - location: start.sh
-      runas: root
-      
+
    
