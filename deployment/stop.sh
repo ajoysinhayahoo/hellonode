@@ -1,4 +1,4 @@
 #!/bin/sh
 
 
-forever stopall
+sudo forever stopall

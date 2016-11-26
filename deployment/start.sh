@@ -1,4 +1,4 @@
 #!/bin/sh
 
 
-forever start ../server.js
+sudo forever start /server.js
