@@ -101,6 +101,7 @@
 
 						<div class="row">
 							<img class="materialboxed" id="imageid" width="100" src="https://s3-us-west-2.amazonaws.com/profilepicturefornodeapp/messagers.jpg">
+							<a href="#" onclick="deleteImage('messagers.jpg')">X</a>
 						</div>
 
 						<button class="btn waves-effect waves-light floatright"
@@ -144,7 +145,7 @@
 	// url: 'http://profilepicturemanager-societymanager.rhcloud.com/api/photo',
 	
 	$('button#uploadimage').click( function() {
-		alert("button clicked !!");
+		 
 	    $.ajax({
 	        url: '/api/photo',
 	        type: 'post',
@@ -164,6 +165,26 @@
         	}
 	    });
 	});
+	
+	var deleteImage = function(key) {
+		
+		var jsondata = {};
+		
+		$.ajax({
+	        url: '/deleteImage/'+key,
+	        type: 'GET',
+	        data: JSON.stringify(jsondata),
+	        dataType : "json",
+			crossDomain : false,	
+	        success: function(data) {
+	        	 alert(JSON.stringify(data));
+	        },
+	        failure: function(data) {
+                alert("file not uploaded");
+        	}
+	    });
+		
+	} 
 	</script>
 </body>
 </html>

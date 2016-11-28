@@ -96,6 +96,22 @@ module.exports = function(app) {
 		controller.getImage(fileid, req, res);
 
 	});
+	
+	app.get('/deleteImage/:key', cors(), function(req, res) {
+		var key = req.params.key;
+		var deleteParam = {
+		        Bucket: 'profilepicturefornodeapp',
+		        Delete: {
+		            Objects: [{Key: key}]
+		        }
+		}; 
+		s3.deleteObjects(deleteParam, function(err, data) {
+	        if (err) console.log(err, err.stack);
+	        else console.log('delete', data);
+	    });
+		//controller.getImage(fileid, req, res);
+
+	});
 
 	app.get('/', function(req, res) {
 		res.setHeader('Content-Type', 'text/html');
