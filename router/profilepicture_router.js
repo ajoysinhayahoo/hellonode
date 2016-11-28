@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var multer = require('multer');
 var Grid = require('gridfs-stream');
 var mongoose = require('mongoose');
+var ApiResponse = require("../util/ApiResponse.js");
 var gfs;
 
 var AWS = require('aws-sdk');
@@ -60,14 +61,32 @@ module.exports = function(app) {
 		    s3.putObject(params, function (perr, pres) {
 		      if (perr) {
 		        console.log("Error uploading data: ", perr);
+		        var response = new ApiResponse({
+					success : false,
+					extras : file
+				});
+				fs.unlink(file.path);
+				res.end(JSON.stringify(response));
 		      } else {
 		        console.log("Successfully uploaded data to myBucket/myKey"+pres);
 		        console.log("Successfully uploaded data to myBucket/myKey"+ JSON.stringify(pres));
+		        var response = new ApiResponse({
+					success : true,
+					extras : file
+				});
+				fs.unlink(file.path);
+				res.end(JSON.stringify(response));
 		      }
 		    });
-		},
+		}/*,
 		onFileUploadComplete : function(file, req, res) {
 			console.log(' 3  file path '+file.path);
+			var response = new ApiResponse({
+				success : true,
+				extras : file
+			});
+			fs.unlink(file.path);
+			res.end(JSON.stringify(response));
 			controller.uploadfile(file, function(status, result) {
 				done = true;
 				fs.unlink(file.path);
@@ -76,7 +95,7 @@ module.exports = function(app) {
 			
 			
 			 
-		}
+		}*/
 	}));
 
 	app.post('/api/photo', cors(), function(req, res) {
