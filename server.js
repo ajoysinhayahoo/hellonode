@@ -30,7 +30,8 @@ var SampleApp = function() {
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
-        self.ipaddress = "172.31.17.89";
+        //self.ipaddress = "172.31.17.89";
+    	self.ipaddress = "127.0.0.1";
         self.port      = "8181";
 
         if (typeof self.ipaddress === "undefined") {

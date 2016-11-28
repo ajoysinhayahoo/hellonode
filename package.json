@@ -34,7 +34,9 @@
     "gridfs-stream":"~1.1.1",
     "codedeploy-scripts":"latest",
     "connect":"latest",
-    "http":"latest"
+    "http":"latest",
+    "s3-uploader":"latest",
+    "imagemagick":"latest"
   },
   "devDependencies": {
   	 "should": "~7.1.0",

@@ -2,7 +2,6 @@
  * 
  */
 
-
 var http = require('http');
 var cors = require('cors');
 var fs = require('fs');
@@ -23,7 +22,7 @@ var fileid = "";
 
 module.exports = function(app) {
 
-	//var controller = require("../controller/profilepicture_controller");
+	var controller = require("../controller/profilepicture_controller");
 
 	app.use(bodyParser.json({
 		extended : false
@@ -43,10 +42,10 @@ module.exports = function(app) {
 		},
 		onFileUploadComplete : function(file, req, res) {
 			console.log(' 3  ');
-			/*controller.uploadfile(file, function(status, result) {
+			controller.uploadfile(file, function(status, result) {
 				done = true;
 				res.end(JSON.stringify(result));
-			});*/
+			});
 
 		}
 	}));
@@ -71,7 +70,7 @@ module.exports = function(app) {
 	
 	app.get('/', function(req, res) {
 		res.setHeader('Content-Type', 'text/html');
-		res.send(fs.readFileSync('./index.html'));
+		res.send(fs.readFileSync('./profilepicturemanager/imageupload.html'));
 	});
 
 }
