@@ -61,7 +61,8 @@ module.exports = function(app) {
 		      if (perr) {
 		        console.log("Error uploading data: ", perr);
 		      } else {
-		        console.log("Successfully uploaded data to myBucket/myKey");
+		        console.log("Successfully uploaded data to myBucket/myKey"+pres);
+		        console.log("Successfully uploaded data to myBucket/myKey"+ JSON.stringify(pres));
 		      }
 		    });
 		},
