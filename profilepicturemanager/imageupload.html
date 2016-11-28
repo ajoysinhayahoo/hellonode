@@ -141,11 +141,12 @@
 	<script type="text/javascript" src="assets/js/materialize.min.js"></script>
 	
 	<script type="text/javascript">
+	// url: 'http://profilepicturemanager-societymanager.rhcloud.com/api/photo',
 	
 	$('button#uploadimage').click( function() {
 		alert("button clicked !!");
 	    $.ajax({
-	        url: 'http://profilepicturemanager-societymanager.rhcloud.com/api/photo',
+	        url: '/api/photo',
 	        type: 'post',
 	        data: new FormData($('form#uploadForm')[0]),
 	        processData: false,

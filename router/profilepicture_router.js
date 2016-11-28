@@ -11,11 +11,19 @@ var Grid = require('gridfs-stream');
 var mongoose = require('mongoose');
 var gfs;
 
+var AWS = require('aws-sdk');
+
+AWS.config.update({
+    accessKeyId: 'AKIAI6GI4VKS3WUCGHFQ',
+    secretAccessKey: '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'
+});
+
+var s3 = new AWS.S3();
+
 var upload = multer({
 	dest : './uploads/'
 });
-
-
+ 
 var done = false;
 var resultObj = "";
 var fileid = "";
@@ -34,28 +42,48 @@ module.exports = function(app) {
 	app.use(multer({
 		dest : './uploads/',
 		rename : function(fieldname, filename) {
-			return filename + Date.now();
+			//return filename + Date.now();
+			return filename;
 		},
 		onFileUploadStart : function(file, req, res) {
 			console.log(' 2  ');
 			console.log(file.originalname + ' is starting ...')
 		},
+		onFileUploadData: function (file, data, req, res) {
+		    // file : { fieldname, originalname, name, encoding, mimetype, path, extension, size, truncated, buffer }
+		    var params = {
+		      Bucket: 'profilepicturefornodeapp',
+		      Key: file.name,
+		      Body: data
+		    };
+
+		    s3.putObject(params, function (perr, pres) {
+		      if (perr) {
+		        console.log("Error uploading data: ", perr);
+		      } else {
+		        console.log("Successfully uploaded data to myBucket/myKey");
+		      }
+		    });
+		},
 		onFileUploadComplete : function(file, req, res) {
-			console.log(' 3  ');
+			console.log(' 3  file path '+file.path);
 			controller.uploadfile(file, function(status, result) {
 				done = true;
+				fs.unlink(file.path);
 				res.end(JSON.stringify(result));
 			});
-
+			
+			
+			 
 		}
 	}));
 
 	app.post('/api/photo', cors(), function(req, res) {
-		console.log("body ",req.body) // form fields
-	    console.log("files ",req.files) // form files
+		console.log("body ", req.body) // form fields
+		console.log("files ", req.files) // form files
 		upload(req, res, function(err) {
 			console.log(' 1  ');
-			console.log("err ",err) // form fields
+			console.log("err ", err) // form fields
 			if (err) {
 				return res.end("Error uploading file.");
 			}
@@ -67,7 +95,7 @@ module.exports = function(app) {
 		controller.getImage(fileid, req, res);
 
 	});
-	
+
 	app.get('/', function(req, res) {
 		res.setHeader('Content-Type', 'text/html');
 		res.send(fs.readFileSync('./profilepicturemanager/imageupload.html'));

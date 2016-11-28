@@ -36,7 +36,8 @@
     "connect":"latest",
     "http":"latest",
     "s3-uploader":"latest",
-    "imagemagick":"latest"
+    "imagemagick":"latest",
+    "multer-s3":"latest"
   },
   "devDependencies": {
   	 "should": "~7.1.0",
