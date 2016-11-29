@@ -15,8 +15,8 @@ var gfs;
 var AWS = require('aws-sdk');
 
 AWS.config.update({
-    accessKeyId: 'AKIAI6GI4VKS3WUCGHFQ',
-    secretAccessKey: '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'
+    accessKeyId: 'asdad',
+    secretAccessKey: 'asdasda'
 });
 
 var s3 = new AWS.S3();
