@@ -110,6 +110,8 @@
 						</button>
 
 					</div>
+					
+					<input type="hidden" value="bijoy" id="username" name="username"/>
 
 				</form>
 
@@ -146,11 +148,16 @@
 	var imageKey = "";
 	
 	$('button#uploadimage').click( function() {
-		 
+		
+		var form_data = "";
+		form_data = new FormData($('form#uploadForm')[0]);   
+		delete form_data['username'];
+		form_data.append("username", "bijoy") 
+		
 	    $.ajax({
 	        url: '/api/photo',
 	        type: 'post',
-	        data: new FormData($('form#uploadForm')[0]),
+	        data: form_data,
 	        processData: false,
 	        contentType: false,
 	        multiple: true,
@@ -159,7 +166,7 @@
 	        	console.log(JSON.stringify(obj));
 	        	console.log(JSON.stringify(obj.extras));
 	        	imageKey = obj.extras.originalname;
-	        	var newSrc = url+obj.extras.originalname;
+	        	var newSrc = url+"bijoy/"+obj.extras.originalname;
 	        	$('img[id="imageid"]').attr('src', newSrc);
 	        },
 	        failure: function(data) {
@@ -177,7 +184,7 @@
 		var jsondata = {};
 		
 		$.ajax({
-	        url: '/deleteImage/'+key,
+	        url: '/deleteImage/'+'bijoy/'+key,
 	        type: 'GET',
 	        data: JSON.stringify(jsondata),
 	        dataType : "json",

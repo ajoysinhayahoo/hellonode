@@ -8,7 +8,7 @@ console.log(" >>> "+process.env.OPENSHIFT_MONGODB_DB_URL);
 if (process.env.OPENSHIFT_MONGODB_DB_URL) {
 	formatterUrl = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
 } else {
-	formatterUrl = 'mongodb://localhost:27017/profileimagebank';
+	formatterUrl = 'mongodb://127.0.0.1:27017/profileimagebank';
 }
 
 module.exports = {
