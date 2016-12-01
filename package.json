@@ -28,7 +28,7 @@
     "express": "~3.4.4",
     "body-parser": "~1.14.1",
     "mongoose":"~4.2.8",
-    "multer": "~0.1.6",
+    "multer": "latest",
     "mongoose-auto-increment":"~5.0.1",
     "cors":"~2.7.1",
     "gridfs-stream":"~1.1.1",

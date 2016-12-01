@@ -12,25 +12,37 @@ var mongoose = require('mongoose');
 var ApiResponse = require("../util/ApiResponse.js");
 var gfs;
 
+//var upload = multer({dest : './uploads/'});
+
 var AWS = require('aws-sdk');
 
-AWS.config.update({
-    accessKeyId: 'asdad',
-    secretAccessKey: 'asdasda'
-});
-
 var s3 = new AWS.S3();
-
-var upload = multer({
-	dest : './uploads/'
-});
  
 var done = false;
 var resultObj = "";
 var fileid = "";
 
-module.exports = function(app) {
+var multer = require('multer')
 
+var storage = multer.diskStorage({
+	
+    destination: function (req, file, callback) {
+        callback(null, './uploads/');
+    },
+    filename: function (req, file, callback) {
+        console.log(file);
+        callback(null, file.originalname)
+    }
+});
+ 
+var upload = multer({
+	storage: storage,
+});
+
+
+
+module.exports = function(app) {
+ 
 	var controller = require("../controller/profilepicture_controller");
 
 	app.use(bodyParser.json({
@@ -40,30 +52,18 @@ module.exports = function(app) {
 		extended : false
 	}))
 
-	app.use(multer({
-		dest : './uploads/',
-		rename : function(fieldname, filename) {
-			//return filename + Date.now();
-			return filename;
-		},
-		onFileUploadStart : function(file, req, res) {
-			console.log(' 2  ');
-			console.log(file.originalname + ' is starting ...')
-		},
-		onFileUploadData: function (file, data, req, res) {
-		    // file : { fieldname, originalname, name, encoding, mimetype, path, extension, size, truncated, buffer }
-			console.log("username >>"+ req.body.username); // form fields
-			console.log("req.body >>"+ JSON.stringify(req.body)); // form fields
-			 
-			
-			var userid = req.body.username;
-			
-			console.log("userid >>"+ userid); 
-			
-		    var params = {
+	 
+	app.post('/api/photo', upload.single('file'), function(req, res) {
+		
+	    console.log(req.body) // form fields
+	    console.log(req.file) // form files
+	    
+	    var file = req.file;
+	    
+	    var params = {
 		      Bucket: 'profilepicturefornodeapp',
-		      Key: userid + "/"+file.name,
-		      Body: data,
+		      Key: req.body.username + "/"+file.originalname,
+		      Body: fs.readFileSync(file.path),
 		      ACL:'public-read'
 		    };
 
@@ -74,7 +74,7 @@ module.exports = function(app) {
 					success : false,
 					extras : file
 				});
-				//fs.unlink(file.path);
+				fs.unlink(file.path);
 				res.end(JSON.stringify(response));
 		      } else {
 		        console.log("Successfully uploaded data to myBucket/myKey"+pres);
@@ -83,39 +83,12 @@ module.exports = function(app) {
 					success : true,
 					extras : file
 				});
-				//fs.unlink(file.path);
+				fs.unlink(file.path);
 				res.end(JSON.stringify(response));
 		      }
-		    });
-		},
-		onFileUploadComplete : function(file, req, res) {
-			/*console.log(' 3  file path '+file.path);
-			var response = new ApiResponse({
-				success : true,
-				extras : file
-			});*/
-			fs.unlink(file.path);
-			//res.end(JSON.stringify(response));
-			/*controller.uploadfile(file, function(status, result) {
-				done = true;
-				fs.unlink(file.path);
-				res.end(JSON.stringify(result));
-			});
-			
-			*/
-			 
-		}
-	}));
-
-	app.post('/api/photo', cors(), function(req, res) {
-		console.log("username !!! "+ req.body.username); // form fields
-		/*upload(req, res, function(err) {
-			console.log(' 1  ');
-			console.log("err ", err) // form fields
-			if (err) {
-				return res.end("Error uploading file.");
-			}
-		});*/
+		 });
+		
+		 
 	});
 
 	app.get('/findimage/:id', cors(), function(req, res) {

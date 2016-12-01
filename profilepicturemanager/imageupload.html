@@ -100,7 +100,7 @@
 						</div>
 
 						<div class="row">
-							<img class="materialboxed" id="imageid" width="100" src="https://s3-us-west-2.amazonaws.com/profilepicturefornodeapp/messagers.jpg">
+							<img class="materialboxed" id="imageid" width="100" src="https://s3-us-west-2.amazonaws.com/profilepicturefornodeapp/bijoy/Book.png">
 							<a href="#" onclick="deleteImage('')">X</a>
 						</div>
 
@@ -111,7 +111,7 @@
 
 					</div>
 					
-					<input type="hidden" value="bijoy" id="username" name="username"/>
+					<input type="hidden" value="bijoy" id="usernamehidden" name="usernamehidden"/>
 
 				</form>
 
@@ -143,16 +143,17 @@
 	<!-- Custom js -->
 	<script type="text/javascript" src="assets/js/materialize.min.js"></script>
 	
-	<script type="text/javascript">
+	<script type="text/javascript"> 
 	var url = 'https://s3-us-west-2.amazonaws.com/profilepicturefornodeapp/';
 	var imageKey = "";
 	
 	$('button#uploadimage').click( function() {
 		
-		var form_data = "";
-		form_data = new FormData($('form#uploadForm')[0]);   
-		delete form_data['username'];
-		form_data.append("username", "bijoy") 
+		var form_data = new FormData();
+		form_data.append("username","bijoy");
+		form_data.append("file",$('#userPhoto')[0].files[0]);
+	  
+ 
 		
 	    $.ajax({
 	        url: '/api/photo',
